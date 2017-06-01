@@ -43,24 +43,31 @@ vcpkg_configure_cmake(
         -DCPACK_SOURCE_7Z=OFF
         -DCPACK_SOURCE_ZIP=OFF
         -DCPACK_BINARY_NSIS=OFF
+    OPTIONS_DEBUG
+        -DCMAKE_DEBUG_POSTFIX=-gd
 )
 
 vcpkg_install_cmake()
 
-file(COPY "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/lib/flann.pdb" DESTINATION ${CURRENT_PACKAGES_DIR}/debug/bin)
+file(COPY "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/lib/flann-gd.pdb" DESTINATION ${CURRENT_PACKAGES_DIR}/debug/bin)
+# file(COPY "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/lib/flann_cpp_s-gd.pdb" DESTINATION ${CURRENT_PACKAGES_DIR}/debug/bin)
 
-file(GLOB STATIC_LIBS ${CURRENT_PACKAGES_DIR}/lib/*_s.lib ${CURRENT_PACKAGES_DIR}/debug/lib/*_s.lib)
-file(REMOVE ${STATIC_LIBS})
+# file(GLOB STATIC_LIBS ${CURRENT_PACKAGES_DIR}/lib/*_s.lib ${CURRENT_PACKAGES_DIR}/debug/lib/*_s.lib)
+# file(REMOVE ${STATIC_LIBS})
 
 file(REMOVE
     ${CURRENT_PACKAGES_DIR}/lib/flann_cpp.lib
-    ${CURRENT_PACKAGES_DIR}/debug/flann_cpp.lib
+    ${CURRENT_PACKAGES_DIR}/debug/flann_cpp-gd.lib
     ${CURRENT_PACKAGES_DIR}/bin/flann_cpp.dll
-    ${CURRENT_PACKAGES_DIR}/debug/bin/flann_cpp.dll)
+    ${CURRENT_PACKAGES_DIR}/debug/bin/flann_cpp-gd.dll
+)
 
 file(REMOVE_RECURSE
     ${CURRENT_PACKAGES_DIR}/debug/include
     ${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig
+    ${CURRENT_PACKAGES_DIR}/debug/share
+    ${CURRENT_PACKAGES_DIR}/share/flann/matlab
+    ${CURRENT_PACKAGES_DIR}/share/flann/python
     ${CURRENT_PACKAGES_DIR}/lib/pkgconfig)
 
 # Handle copyright
