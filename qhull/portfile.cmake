@@ -34,9 +34,7 @@ file(GLOB NEED_REMOVE_FILES
     ${CURRENT_PACKAGES_DIR}/include/libqhull/*.htm
     ${CURRENT_PACKAGES_DIR}/include/libqhull/*.txt
     ${CURRENT_PACKAGES_DIR}/include/libqhull_r/*.htm
-    ${CURRENT_PACKAGES_DIR}/lib/*static*.lib
     ${CURRENT_PACKAGES_DIR}/debug/bin/*.exe
-    ${CURRENT_PACKAGES_DIR}/debug/lib/*static*.lib
     )
 file(REMOVE ${NEED_REMOVE_FILES})
 
