@@ -23,33 +23,33 @@ vcpkg_apply_patches(SOURCE_PATH ${SOURCE_PATH}
     PATCHES ${CMAKE_CURRENT_LIST_DIR}/01-Fix_compile_error_C2440_of_pcl_visualization_on_MSVC.patch
             ${CMAKE_CURRENT_LIST_DIR}/02-Fix_Literal_is_not_a_member_of_Eigen_NumTraits.patch)
 
-# vcpkg_configure_cmake(
-#     SOURCE_PATH ${SOURCE_PATH}
-#     # PREFER_NINJA # Disable this option if project cannot be built with Ninja
-#     OPTIONS
-#         -DFLANN_USE_STATIC=ON
-#         -DQHULL_USE_STATIC=OFF
-#         -DPCL_BUILD_WITH_BOOST_DYNAMIC_LINKING_WIN32=ON
-#         "-DCMAKE_CXX_STANDARD_LIBRARIES=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib delayimp.lib"
-#         # -DBoost_LIBRARY_DIR_DEBUG=${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/debug/lib
-#         -DCPACK_SOURCE_7Z=OFF
-#         -DCPACK_SOURCE_ZIP=OFF
-#         -DWITH_CUDA=ON
-#         -DWITH_LIBUSB=OFF
-#         -DWITH_OPENGL=ON
-#         -DWITH_PCAP=OFF
-#         -DWITH_QHULL=ON
-#         -DWITH_QT=ON
-#         -DWITH_VTK=ON
-#         -DPCL_SHARED_LIBS=ON
-#         -DPCL_ENABLE_SSE=ON
-#         -DBUILD_visualization=ON
-#         -DBUILD_CUDA=ON
-#         -DBUILD_GPU=ON
-#         -DBUILD_surface_on_nurbs=ON
-#     # OPTIONS_RELEASE -DOPTIMIZE=1
-#     # OPTIONS_DEBUG -DDEBUGGABLE=1
-# )
+vcpkg_configure_cmake(
+    SOURCE_PATH ${SOURCE_PATH}
+    # PREFER_NINJA # Disable this option if project cannot be built with Ninja
+    OPTIONS
+        -DFLANN_USE_STATIC=ON
+        -DQHULL_USE_STATIC=OFF
+        -DPCL_BUILD_WITH_BOOST_DYNAMIC_LINKING_WIN32=ON
+        "-DCMAKE_CXX_STANDARD_LIBRARIES=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib delayimp.lib"
+        # -DBoost_LIBRARY_DIR_DEBUG=${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/debug/lib
+        -DCPACK_SOURCE_7Z=OFF
+        -DCPACK_SOURCE_ZIP=OFF
+        -DWITH_CUDA=ON
+        -DWITH_LIBUSB=OFF
+        -DWITH_OPENGL=ON
+        -DWITH_PCAP=OFF
+        -DWITH_QHULL=ON
+        -DWITH_QT=ON
+        -DWITH_VTK=ON
+        -DPCL_SHARED_LIBS=ON
+        -DPCL_ENABLE_SSE=ON
+        -DBUILD_visualization=ON
+        -DBUILD_CUDA=ON
+        -DBUILD_GPU=ON
+        -DBUILD_surface_on_nurbs=ON
+    # OPTIONS_RELEASE -DOPTIMIZE=1
+    # OPTIONS_DEBUG -DDEBUGGABLE=1
+)
 
 vcpkg_install_cmake()
 
@@ -70,18 +70,18 @@ file(REMOVE_RECURSE
 
 file(RENAME ${CURRENT_PACKAGES_DIR}/cmake ${CURRENT_PACKAGES_DIR}/lib/PCL)
 
-file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/tools)
+file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/tools/pcl)
 file(GLOB RELEASE_EXE_FILES ${CURRENT_PACKAGES_DIR}/bin/*.exe)
 foreach(EXE_FILE ${RELEASE_EXE_FILES})
     get_filename_component(FILE_NAME ${EXE_FILE} NAME)
-    file(RENAME ${CURRENT_PACKAGES_DIR}/bin/${FILE_NAME} ${CURRENT_PACKAGES_DIR}/tools/${FILE_NAME})
+    file(RENAME ${CURRENT_PACKAGES_DIR}/bin/${FILE_NAME} ${CURRENT_PACKAGES_DIR}/tools/pcl/${FILE_NAME})
 endforeach()
 
-file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/debug/tools)
+file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/debug/tools/pcl)
 file(GLOB DEBUG_EXE_FILES ${CURRENT_PACKAGES_DIR}/debug/bin/*.exe)
 foreach(EXE_FILE ${DEBUG_EXE_FILES})
     get_filename_component(FILE_NAME ${EXE_FILE} NAME)
-    file(RENAME ${CURRENT_PACKAGES_DIR}/debug/bin/${FILE_NAME} ${CURRENT_PACKAGES_DIR}/debug/tools/${FILE_NAME})
+    file(RENAME ${CURRENT_PACKAGES_DIR}/debug/bin/${FILE_NAME} ${CURRENT_PACKAGES_DIR}/debug/tools/pcl/${FILE_NAME})
 endforeach()
 
 # Handle copyright
