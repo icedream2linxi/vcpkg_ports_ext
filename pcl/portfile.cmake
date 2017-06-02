@@ -31,7 +31,6 @@ vcpkg_configure_cmake(
         -DQHULL_USE_STATIC=OFF
         -DPCL_BUILD_WITH_BOOST_DYNAMIC_LINKING_WIN32=ON
         "-DCMAKE_CXX_STANDARD_LIBRARIES=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib delayimp.lib"
-        # -DBoost_LIBRARY_DIR_DEBUG=${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/debug/lib
         -DCPACK_SOURCE_7Z=OFF
         -DCPACK_SOURCE_ZIP=OFF
         -DWITH_CUDA=ON
