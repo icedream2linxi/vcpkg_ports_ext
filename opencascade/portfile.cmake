@@ -19,7 +19,7 @@ vcpkg_download_distfile(ARCHIVE
 )
 vcpkg_extract_source_archive(${ARCHIVE})
 
-if("$ENV{TCL_PATH}" EQUAL "")
+if("$ENV{TCL_PATH}" STREQUAL "")
     message(FATAL_ERROR "Not found TCL! Please set TCL_PATH environment variable before!")
 endif()
 
@@ -34,7 +34,7 @@ vcpkg_configure_cmake(
         -D3RDPARTY_TK_LIBRARY_DIR=$ENV{TCL_PATH}/lib
         -D3RDPARTY_TK_DLL_DIR=$ENV{TCL_PATH}/bin
         -DINSTALL_DIR_BIN=bin
-        -DINSTALL_DIR_INCLUDE=include/OpenCASCADE
+        -DINSTALL_DIR_INCLUDE=include
         -DINSTALL_DIR_LIB=lib
     # OPTIONS_RELEASE
     # OPTIONS_DEBUG -DDEBUGGABLE=1
