@@ -19,8 +19,8 @@ vcpkg_download_distfile(ARCHIVE
 )
 vcpkg_extract_source_archive(${ARCHIVE})
 
-# set(VCPKG_POLICY_DLLS_WITHOUT_LIBS enabled)
-# set(VCPKG_POLICY_ALLOW_OBSOLETE_MSVCRT enabled)
+vcpkg_apply_patches(SOURCE_PATH ${SOURCE_PATH}
+    PATCHES ${CMAKE_CURRENT_LIST_DIR}/01-Fix_build.patch)
 
 set(ENV{INCLUDE} "$ENV{INCLUDE};${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/include")
 set(ENV{LIB} "$ENV{LIB};${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/lib")
