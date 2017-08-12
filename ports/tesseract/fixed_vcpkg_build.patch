@@ -1,5 +1,5 @@
 diff --git a/training/CMakeLists.txt b/training/CMakeLists.txt
-index 01e6b739..cfef89b9 100644
+index 01e6b739..04be0512 100644
 --- a/training/CMakeLists.txt
 +++ b/training/CMakeLists.txt
 @@ -26,33 +26,33 @@ else()
@@ -81,3 +81,76 @@ index 01e6b739..cfef89b9 100644
  target_link_libraries       (common_training libtesseract tessopt)
  project_group               (common_training "Training Tools")
  
+@@ -199,7 +199,7 @@ project_group               (set_unicharset_properties "Training Tools")
+ # EXECUTABLE text2image
+ ########################################
+ 
+-if (PKG_CONFIG_FOUND OR CPPAN_BUILD)
++if (PKG_CONFIG_FOUND OR CPPAN_BUILD OR VCPKG_BUILD)
+ 
+ if (PKG_CONFIG_FOUND)
+ pkg_check_modules(Pango REQUIRED pango)
+@@ -230,21 +230,61 @@ set(text2image_src
+     util.h
+     icuerrorcode.h
+ )
+-if (CYGWIN)
++if (CYGWIN OR VCPKG_BUILD)
+ set(text2image_src ${text2image_src} ../vs2010/port/strcasestr.cpp)
+ endif()
+ 
++if (VCPKG_BUILD)
++# find cairo
++find_path(Cairo_INCLUDE_DIRS cairo.h)
++if(CMAKE_BUILD_TYPE STREQUAL Debug)
++    set(CAIRO_SUFFIX d)
++endif()
++find_library(CAIRO_LIBRARY 
++    NAMES
++        cairo${CAIRO_SUFFIX}
++        cairo-static${CAIRO_SUFFIX})
++find_library(CAIRO_GOBJECT_LIBRARY cairo-gobject${CAIRO_SUFFIX})
++set(Cairo_LIBRARIES ${CAIRO_LIBRARY} ${CAIRO_GOBJECT_LIBRARY})
++
++# find fontconfig
++find_path(FONTCONFIG_INCLUDE_DIR fontconfig/fontconfig.h)
++find_library(FontConfig_LIBRARIES fontconfig)
++
++# find pango
++set(PANGO_LIB_SUFFIX 1.0)
++find_path(Pango_INCLUDE_DIRS pango/pango.h)
++find_library(PANGO_LIBRARY NAMES pango-${PANGO_LIB_SUFFIX})
++find_library(PANGOWIN32_LIBRARY NAMES pangowin32-${PANGO_LIB_SUFFIX})
++set(Pango_LIBRARIES ${PANGO_LIBRARY} ${PANGOWIN32_LIBRARY})
++find_library(PangoCairo_LIBRARIES NAMES pangocairo-${PANGO_LIB_SUFFIX})
++find_library(PangoFt2_LIBRARIES NAMES pangoft2-${PANGO_LIB_SUFFIX})
++
++# find glib
++set(GLIB_LIB_VERSION 2.0)
++find_path(GLIB_INCLUDE_DIR glib.h)
++find_library(GLIB_GLIB_LIBRARY glib-${GLIB_LIB_VERSION})
++find_library(GLIB_GOBJECT_LIBRARY gobject-${GLIB_LIB_VERSION})
++set(GLIB_LIBRARIES ${GLIB_GLIB_LIBRARY} ${GLIB_GOBJECT_LIBRARY} ${GLIB_GMODULE_LIBRARY})
++
++endif()
++
+ add_executable              (text2image ${text2image_src})
+ target_link_libraries       (text2image common_training)
+-if (PKG_CONFIG_FOUND)
++if (PKG_CONFIG_FOUND OR VCPKG_BUILD)
+ target_include_directories  (text2image BEFORE PRIVATE ${Cairo_INCLUDE_DIRS} ${Pango_INCLUDE_DIRS})
+ target_compile_definitions  (text2image PRIVATE -DPANGO_ENABLE_ENGINE)
++if (BUILD_SHARED_LIBS)
++target_compile_definitions  (text2image PRIVATE "-D_PANGO_EXTERN=__declspec(dllimport) extern")
++endif()
+ target_link_libraries       (text2image
+     ${Pango_LIBRARIES}
+     ${Cairo_LIBRARIES}
+     ${PangoCairo_LIBRARIES}
+     ${PangoFt2_LIBRARIES}
+     ${FontConfig_LIBRARIES}
++    ${ICU_LIBRARIES}
++    ${GLIB_LIBRARIES}
+ )
+ endif()
+ if (CPPAN_BUILD)

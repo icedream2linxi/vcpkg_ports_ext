@@ -48,6 +48,7 @@ vcpkg_apply_patches(
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA # Disable this option if project cannot be built with Ninja
+    OPTIONS -DVCPKG_BUILD=ON
 )
 
 vcpkg_install_cmake()
@@ -68,11 +69,19 @@ file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
 file(RENAME ${CURRENT_PACKAGES_DIR}/cmake ${CURRENT_PACKAGES_DIR}/lib/tesseract)
 file(RENAME ${CURRENT_PACKAGES_DIR}/debug/cmake ${CURRENT_PACKAGES_DIR}/debug/lib/tesseract)
 
-file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/tools)
-file(RENAME ${CURRENT_PACKAGES_DIR}/bin/tesseract.exe ${CURRENT_PACKAGES_DIR}/tools/tesseract.exe)
+file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/tools/tesseract)
+file(REMOVE ${CURRENT_PACKAGES_DIR}/bin/tesseract.exe)
+file(GLOB RELEASE_EXE_FILES ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/bin/*.exe)
+foreach(EXE_FILE ${RELEASE_EXE_FILES})
+    file(COPY ${EXE_FILE} DESTINATION ${CURRENT_PACKAGES_DIR}/tools/tesseract/)
+endforeach()
 
-file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/debug/tools)
-file(RENAME ${CURRENT_PACKAGES_DIR}/debug/bin/tesseract.exe ${CURRENT_PACKAGES_DIR}/debug/tools/tesseract.exe)
+file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/debug/tools/tesseract)
+file(REMOVE ${CURRENT_PACKAGES_DIR}/debug/bin/tesseract.exe)
+file(GLOB DEBUG_EXE_FILES ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/bin/*.exe)
+foreach(EXE_FILE ${DEBUG_EXE_FILES})
+    file(COPY ${EXE_FILE} DESTINATION ${CURRENT_PACKAGES_DIR}/debug/tools/tesseract/)
+endforeach()
 
 vcpkg_copy_pdbs()
 
