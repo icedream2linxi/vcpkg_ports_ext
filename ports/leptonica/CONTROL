@@ -1,0 +1,4 @@
+Source: leptonica
+Version: 1.74.3
+Description: Leptonica is an open source library containing software that is broadly useful for image processing and image analysis applications. 
+Build-Depends: zlib, tiff, libjpeg-turbo, giflib, libpng

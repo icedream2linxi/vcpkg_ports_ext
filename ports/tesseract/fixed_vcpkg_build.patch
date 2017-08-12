@@ -1,0 +1,83 @@
+diff --git a/training/CMakeLists.txt b/training/CMakeLists.txt
+index 01e6b739..cfef89b9 100644
+--- a/training/CMakeLists.txt
++++ b/training/CMakeLists.txt
+@@ -26,33 +26,33 @@ else()
+     message(FATAL_ERROR "Cannot determine target architecture")
+ endif()
+ 
+-set(icu_dir "${CMAKE_CURRENT_BINARY_DIR}/icu")
+-set(icu_archive "${icu_dir}/icu${ARCH_DIR_NAME}.zip")
+-
+-if (X86)
+-    set(icu_hash 45167a240b60e36b59a87eda23490ce4)
+-else()
+-    set(icu_hash 480c72491576c048de1218c3c5519399)
+-endif()
+-
+-message(STATUS "Downloading latest ICU binaries")
+-
+-file(DOWNLOAD
+-    "http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-Win${ARCH_DIR_NAME}-msvc10.zip"
+-    "${icu_archive}"
+-    SHOW_PROGRESS
+-    INACTIVITY_TIMEOUT 60 # seconds
+-    EXPECTED_HASH MD5=${icu_hash}
+-)
+-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xz "${icu_archive}"
+-    WORKING_DIRECTORY "${icu_dir}"
+-    RESULT_VARIABLE __result
+-)
+-if(NOT __result EQUAL 0)
+-    message(FATAL_ERROR "error ${__result}")
+-endif()
+-
+-set(ICU_ROOT ${icu_dir}/icu)
++# set(icu_dir "${CMAKE_CURRENT_BINARY_DIR}/icu")
++# set(icu_archive "${icu_dir}/icu${ARCH_DIR_NAME}.zip")
++
++# if (X86)
++#     set(icu_hash 45167a240b60e36b59a87eda23490ce4)
++# else()
++#     set(icu_hash 480c72491576c048de1218c3c5519399)
++# endif()
++
++# message(STATUS "Downloading latest ICU binaries")
++
++# file(DOWNLOAD
++#     "http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-Win${ARCH_DIR_NAME}-msvc10.zip"
++#     "${icu_archive}"
++#     SHOW_PROGRESS
++#     INACTIVITY_TIMEOUT 60 # seconds
++#     EXPECTED_HASH MD5=${icu_hash}
++# )
++# execute_process(COMMAND ${CMAKE_COMMAND} -E tar xz "${icu_archive}"
++#     WORKING_DIRECTORY "${icu_dir}"
++#     RESULT_VARIABLE __result
++# )
++# if(NOT __result EQUAL 0)
++#     message(FATAL_ERROR "error ${__result}")
++# endif()
++
++# set(ICU_ROOT ${icu_dir}/icu)
+ 
+ endif()
+ # experimental
+@@ -65,7 +65,7 @@ endif()
+ # LIBRARY tessopt
+ ########################################
+ 
+-add_library                 (tessopt tessopt.cpp tessopt.h)
++add_library                 (tessopt STATIC tessopt.cpp tessopt.h)
+ project_group               (tessopt "Training Tools")
+ 
+ 
+@@ -81,7 +81,7 @@ set(common_training_hdr
+     commandlineflags.h
+     commontraining.h
+ )
+-add_library                 (common_training ${common_training_src} ${common_training_hdr})
++add_library                 (common_training STATIC ${common_training_src} ${common_training_hdr})
+ target_link_libraries       (common_training libtesseract tessopt)
+ project_group               (common_training "Training Tools")
+ 

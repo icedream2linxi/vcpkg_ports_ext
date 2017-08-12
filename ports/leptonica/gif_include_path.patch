@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7953c15..25ff264 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -123,6 +123,10 @@ configure_file(
+ #
+ ###############################################################################
+ 
++if (GIF_FOUND)
++    include_directories(${GIF_INCLUDE_DIR})
++endif()
++
+ add_definitions(-DHAVE_CONFIG_H)
+ 
+ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)

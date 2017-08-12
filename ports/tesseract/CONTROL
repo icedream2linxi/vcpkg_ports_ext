@@ -1,0 +1,4 @@
+Source: tesseract
+Version: 3.5.1
+Description: Tesseract Open Source OCR Engine
+Build-Depends: leptonica, icu
