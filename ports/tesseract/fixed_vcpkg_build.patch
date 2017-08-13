@@ -1,3 +1,35 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 25ded3c2..59637f68 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -161,6 +161,15 @@ include_directories(vs2010/port)
+ include_directories(viewer)
+ include_directories(wordrec)
+ 
++if (OpenCL_FOUND)
++    add_definitions(-DUSE_OPENCL)
++    if (NOT STATIC)
++        add_definitions(-DLIBLEPT_IMPORTS)
++    endif()
++    include_directories(${OpenCL_INCLUDE_DIRS})
++    link_libraries(${OpenCL_LIBRARIES})
++endif()
++
+ ########################################
+ # LIBRARY tesseract
+ ########################################
+diff --git a/opencl/openclwrapper.cpp b/opencl/openclwrapper.cpp
+index b4f6ef9f..d4bdc91f 100644
+--- a/opencl/openclwrapper.cpp
++++ b/opencl/openclwrapper.cpp
+@@ -31,6 +31,7 @@
+ #define FREE LEPT_FREE
+ 
+ #ifdef USE_OPENCL
++#include <cstdint>
+ 
+ #include "opencl_device_selection.h"
+ GPUEnv OpenclDevice::gpuEnv;
 diff --git a/training/CMakeLists.txt b/training/CMakeLists.txt
 index 01e6b739..04be0512 100644
 --- a/training/CMakeLists.txt
