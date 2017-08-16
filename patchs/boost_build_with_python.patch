@@ -1,13 +1,3 @@
-diff --git a/ports/boost/CONTROL b/ports/boost/CONTROL
-index 964665b..f54dbfb 100644
---- a/ports/boost/CONTROL
-+++ b/ports/boost/CONTROL
-@@ -1,4 +1,4 @@
- Source: boost
- Version: 1.64-5
- Description: Peer-reviewed portable C++ source libraries
--Build-Depends: zlib, bzip2
-+Build-Depends: zlib, bzip2, python2 [windows]
 diff --git a/ports/boost/desktop/user-config.jam b/ports/boost/desktop/user-config.jam
 index 8faba6d..3bd7502 100644
 --- a/ports/boost/desktop/user-config.jam
@@ -22,10 +12,10 @@ index 8faba6d..3bd7502 100644
 +;
 \ No newline at end of file
 diff --git a/ports/boost/portfile.cmake b/ports/boost/portfile.cmake
-index 8db5442..52f6c17 100644
+index 8db5442..6a2e2ef 100644
 --- a/ports/boost/portfile.cmake
 +++ b/ports/boost/portfile.cmake
-@@ -79,10 +79,22 @@ set(B2_OPTIONS
+@@ -79,10 +79,23 @@ set(B2_OPTIONS
      --hash
      -q
  
@@ -39,6 +29,7 @@ index 8db5442..52f6c17 100644
 +    list(APPEND B2_OPTIONS --without-python)
 +else()
 +    get_filename_component(PYTHON2_DIR ${PYTHON2} DIRECTORY)
++    set(ENV{PATH} "$ENV{PATH};${PYTHON2_DIR}")
 +    set(PIP "${PYTHON2_DIR}/Scripts/pip")
 +    vcpkg_execute_required_process(COMMAND ${PIP} install --user numpy
 +        WORKING_DIRECTORY ${PYTHON2_DIR}
