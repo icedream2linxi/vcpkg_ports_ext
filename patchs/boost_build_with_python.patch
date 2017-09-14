@@ -12,10 +12,10 @@ index 8faba6d..3bd7502 100644
 +;
 \ No newline at end of file
 diff --git a/ports/boost/portfile.cmake b/ports/boost/portfile.cmake
-index 8db5442..6a2e2ef 100644
+index f153aaf..6eb77d3 100644
 --- a/ports/boost/portfile.cmake
 +++ b/ports/boost/portfile.cmake
-@@ -79,10 +79,23 @@ set(B2_OPTIONS
+@@ -81,10 +81,23 @@ set(B2_OPTIONS
      --hash
      -q
  
@@ -40,3 +40,12 @@ index 8db5442..6a2e2ef 100644
  if (VCPKG_CRT_LINKAGE STREQUAL dynamic)
      list(APPEND B2_OPTIONS runtime-link=shared)
  else()
+@@ -99,6 +112,8 @@ endif()
+ 
+ if(TRIPLET_SYSTEM_ARCH MATCHES "x64")
+     list(APPEND B2_OPTIONS address-model=64)
++else()
++    list(APPEND B2_OPTIONS --without-python)
+ endif()
+ 
+ if(VCPKG_CMAKE_SYSTEM_NAME MATCHES "WindowsStore")
