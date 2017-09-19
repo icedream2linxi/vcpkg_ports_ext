@@ -12,8 +12,8 @@
 
 include(vcpkg_common_functions)
 find_program(GIT git)
-set(GIT_URL "https://github.com/aizvorski/h264bitstream.git")
-set(GIT_REF "1f10a107cf7ba5744539a37b98a43783d16de606")
+set(GIT_URL "https://github.com/hanketgithub/iHevc.git")
+set(GIT_REF "894e7eda1db09f8da2cbf78b31015354a0f6cb2a")
 
 if(NOT EXISTS "${DOWNLOADS}/h264bitstream.git")
     message(STATUS "Cloning")
