@@ -1,0 +1,4 @@
+Source: teighakernel
+Version: 4.3.1
+Description: Teigha Kernel
+Build-Depends: pcre
