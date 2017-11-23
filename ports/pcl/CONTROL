@@ -1,4 +1,0 @@
-Source: pcl
-Version: 1.8.0
-Description: The Point Cloud Library (or PCL) is a large scale, open project for 2D/3D image and point cloud processing. 
-Build-Depends: qhull, flann, qt5, vtk, eigen3

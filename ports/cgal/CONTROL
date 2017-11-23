@@ -1,4 +1,0 @@
-Source: cgal
-Version: 4.10.0
-Description: The Computational Geometry Algorithms Library
-Build-Depends: qt5, gmp, mpfr, eigen3, boost
