@@ -46,6 +46,7 @@ file(GLOB REMOVE_FILES ${CURRENT_PACKAGES_DIR}/bin/*.exe
     ${CURRENT_PACKAGES_DIR}/lib/sqlite3.*
     ${CURRENT_PACKAGES_DIR}/lib/ZeroMQ.*
     ${CURRENT_PACKAGES_DIR}/lib/zmq.*
+    ${CURRENT_PACKAGES_DIR}/lib/Ex*.*
     ${CURRENT_PACKAGES_DIR}/include/OdToolKit.h)
 file(REMOVE ${REMOVE_FILES})
 
@@ -61,6 +62,7 @@ file(GLOB REMOVE_FILES ${CURRENT_PACKAGES_DIR}/debug/bin/*.exe
     ${CURRENT_PACKAGES_DIR}/debug/lib/curl.*
     ${CURRENT_PACKAGES_DIR}/debug/lib/sqlite3.*
     ${CURRENT_PACKAGES_DIR}/debug/lib/ZeroMQ.*
+    ${CURRENT_PACKAGES_DIR}/debug/lib/Ex*.*
     ${CURRENT_PACKAGES_DIR}/debug/lib/zmq.*)
 file(REMOVE ${REMOVE_FILES})
 

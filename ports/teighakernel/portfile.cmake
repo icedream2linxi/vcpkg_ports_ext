@@ -59,6 +59,7 @@ file(GLOB REMOVE_FILES ${CURRENT_PACKAGES_DIR}/bin/*.exe
     ${CURRENT_PACKAGES_DIR}/lib/qpdf.*
     ${CURRENT_PACKAGES_DIR}/lib/sisl.*
     ${CURRENT_PACKAGES_DIR}/lib/stsflib.*
+    ${CURRENT_PACKAGES_DIR}/lib/Ex*.*
     ${CURRENT_PACKAGES_DIR}/lib/tinyxml.*)
 file(REMOVE ${REMOVE_FILES})
 
@@ -82,6 +83,7 @@ file(GLOB REMOVE_FILES ${CURRENT_PACKAGES_DIR}/debug/bin/*.exe
     ${CURRENT_PACKAGES_DIR}/debug/lib/qpdf.*
     ${CURRENT_PACKAGES_DIR}/debug/lib/sisl.*
     ${CURRENT_PACKAGES_DIR}/debug/lib/stsflib.*
+    ${CURRENT_PACKAGES_DIR}/debug/lib/Ex*.*
     ${CURRENT_PACKAGES_DIR}/debug/lib/tinyxml.*)
 file(REMOVE ${REMOVE_FILES})
 
