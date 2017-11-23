@@ -55,12 +55,11 @@ vcpkg_execute_required_process(
     LOGNAME update-submodule
 )
 
-# vcpkg_apply_patches(
-#     SOURCE_PATH ${SOURCE_PATH}
-#     PATCHES
-#     ${CMAKE_CURRENT_LIST_DIR}/fix-build-plugin-vrml.patch
-#     ${CMAKE_CURRENT_LIST_DIR}/switch-build-ffmpeg-plugin.patch
-# )
+vcpkg_apply_patches(
+    SOURCE_PATH ${SOURCE_PATH}
+    PATCHES
+    ${CURRENT_PORT_DIR}/fixed_include.patch
+)
 
 # Acquire tools
 set(ENV{PATH} "${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/bin;${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/tools/qt5;$ENV{PATH}")
@@ -94,13 +93,22 @@ vcpkg_execute_required_process(
     LOGNAME nmake-debug
 )
 
+file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/include/QtPdf/5.9.0/QtPdf/private/)
+
 file(GLOB COPY_FILES LIST_DIRECTORIES  true ${SOURCE_PATH}/Include/*)
-file(INSTALL ${COPY_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include)
+file(COPY ${COPY_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include)
 
 file(GLOB COPY_FILES ${SOURCE_PATH}/src/pdf/*.h)
+
+foreach(COPY_FILE in ${COPY_FILES})
+    get_filename_component(FILE_NAME ${COPY_FILE} NAME)
+    set(REMOVE_FILES ${CURRENT_PACKAGES_DIR}/include/QtPdf/${FILE_NAME} ${REMOVE_FILES})
+endforeach()
+file(REMOVE ${REMOVE_FILES})
+
 file(COPY ${COPY_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include/QtPdf)
-file(MAKE_DIRECTORY ${SOURCE_PATH}/include/QtPdf/5.9.0/QtPdf/private/)
 file(RENAME ${CURRENT_PACKAGES_DIR}/include/QtPdf/qpdfdocument_p.h ${CURRENT_PACKAGES_DIR}/include/QtPdf/5.9.0/QtPdf/private/qpdfdocument_p.h)
+
 file(REMOVE ${CURRENT_PACKAGES_DIR}/include/QtPdf/headers.pri)
 
 file(GLOB COPY_FILES LIST_DIRECTORIES  true ${SOURCE_PATH}/lib/cmake/*)
