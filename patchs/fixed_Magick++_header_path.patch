@@ -1,0 +1,13 @@
+diff --git a/ports/graphicsmagick/CMakeLists.txt b/ports/graphicsmagick/CMakeLists.txt
+index 035a193..addc875 100644
+--- a/ports/graphicsmagick/CMakeLists.txt
++++ b/ports/graphicsmagick/CMakeLists.txt
+@@ -213,7 +213,7 @@ if (INSTALL_HEADERS)
+     install(FILES magick/widget.h DESTINATION include/magick)
+     install(FILES magick/xwindow.h DESTINATION include/magick)
+  
+-    install(FILES Magick++/lib/Magick++.h DESTINATION include/Magick++)
++    install(FILES Magick++/lib/Magick++.h DESTINATION include)
+ 
+     install(FILES Magick++/lib/Magick++/Blob.h DESTINATION include/Magick++)
+     install(FILES Magick++/lib/Magick++/BlobRef.h DESTINATION include/Magick++)
