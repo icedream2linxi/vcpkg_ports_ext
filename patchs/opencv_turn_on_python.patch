@@ -1,65 +1,11 @@
 diff --git a/ports/opencv/portfile.cmake b/ports/opencv/portfile.cmake
-index b6958ab..5e3d503 100644
+index b6958ab..888b3d1 100644
 --- a/ports/opencv/portfile.cmake
 +++ b/ports/opencv/portfile.cmake
-@@ -68,61 +68,81 @@ if(VCPKG_CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
+@@ -68,6 +68,24 @@ if(VCPKG_CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
    set(WITH_MSMF OFF)
  endif()
  
--vcpkg_configure_cmake(
--    SOURCE_PATH ${SOURCE_PATH}
--    OPTIONS
--        # Ungrouped Entries
--        -DOpenCV_DISABLE_ARCH_PATH=ON
--        -DPROTOBUF_UPDATE_FILES=ON
--        -DUPDATE_PROTO_FILES=ON
--        # BUILD
--        -DBUILD_DOCS=OFF
--        -DBUILD_EXAMPLES=OFF
--        -DBUILD_JPEG=OFF
--        -DBUILD_PACKAGE=OFF
--        -DBUILD_PERF_TESTS=OFF
--        -DBUILD_PNG=OFF
--        -DBUILD_PROTOBUF=OFF
--        -DBUILD_TESTS=OFF
--        -DBUILD_TIFF=OFF
--        -DBUILD_WITH_DEBUG_INFO=ON
--        -DBUILD_WITH_STATIC_CRT=${BUILD_WITH_STATIC_CRT}
--        -DBUILD_ZLIB=OFF
--        -DBUILD_opencv_apps=OFF
--        -DBUILD_opencv_dnn=ON
--        -DBUILD_opencv_flann=ON
--        -DBUILD_opencv_python2=OFF
--        -DBUILD_opencv_python3=OFF
--        -DBUILD_opencv_sfm=${BUILD_opencv_sfm}
--        # CMAKE
--        -DCMAKE_DISABLE_FIND_PACKAGE_JNI=ON
--        # ENABLE
--        -DENABLE_CXX11=ON
--        -DENABLE_PYLINT=OFF
--        # INSTALL
--        -DINSTALL_FORCE_UNIX_PATHS=ON
--        -DINSTALL_LICENSE=OFF
--        # OPENCV
--        -DOPENCV_CONFIG_INSTALL_PATH=share/opencv
--        "-DOPENCV_DOWNLOAD_PATH=${DOWNLOADS}/opencv-cache"
--        -DOPENCV_EXTRA_MODULES_PATH=${CONTRIB_SOURCE_PATH}/modules
--        -DOPENCV_OTHER_INSTALL_PATH=share/opencv
--        # WITH
--        -DWITH_CUBLAS=OFF
--        -DWITH_CUDA=${WITH_CUDA}
--        -DWITH_FFMPEG=${WITH_FFMPEG}
--        -DWITH_LAPACK=OFF
--        -DWITH_MSMF=${WITH_MSMF}
--        -DWITH_OPENCLAMDBLAS=OFF
--        -DWITH_OPENGL=ON
--        -DWITH_QT=${WITH_QT}
--        -DWITH_VTK=${WITH_VTK}
--        -DWITH_GDCM=${WITH_GDCM}
--    OPTIONS_DEBUG
--        -DINSTALL_HEADERS=OFF
--        -DINSTALL_OTHER=OFF
--)
 +set(CMAKE_FIND_LIBRARY_PREFIXES "")
 +set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
 +
@@ -77,64 +23,28 @@ index b6958ab..5e3d503 100644
 +else()
 +  set(PYTHON3_OPTIONS -DBUILD_opencv_python3=OFF)
 +endif()
- 
-+# vcpkg_configure_cmake(
-+#     SOURCE_PATH ${SOURCE_PATH}
-+#     OPTIONS
-+#         # Ungrouped Entries
-+#         -DOpenCV_DISABLE_ARCH_PATH=ON
-+#         -DPROTOBUF_UPDATE_FILES=ON
-+#         -DUPDATE_PROTO_FILES=ON
-+#         # BUILD
-+#         -DBUILD_DOCS=OFF
-+#         -DBUILD_EXAMPLES=OFF
-+#         -DBUILD_JPEG=OFF
-+#         -DBUILD_PACKAGE=OFF
-+#         -DBUILD_PERF_TESTS=OFF
-+#         -DBUILD_PNG=OFF
-+#         -DBUILD_PROTOBUF=OFF
-+#         -DBUILD_TESTS=OFF
-+#         -DBUILD_TIFF=OFF
-+#         -DBUILD_WITH_DEBUG_INFO=ON
-+#         -DBUILD_WITH_STATIC_CRT=${BUILD_WITH_STATIC_CRT}
-+#         -DBUILD_ZLIB=OFF
-+#         -DBUILD_opencv_apps=OFF
-+#         -DBUILD_opencv_dnn=ON
-+#         -DBUILD_opencv_flann=ON
-+#         -DBUILD_opencv_python2=OFF
-+#         # -DBUILD_opencv_python3=ON
-+#         ${PYTHON3_OPTIONS}
-+#         -DBUILD_opencv_sfm=${BUILD_opencv_sfm}
-+#         # CMAKE
-+#         -DCMAKE_DISABLE_FIND_PACKAGE_JNI=ON
-+#         # ENABLE
-+#         -DENABLE_CXX11=ON
-+#         -DENABLE_PYLINT=OFF
-+#         # INSTALL
-+#         -DINSTALL_FORCE_UNIX_PATHS=ON
-+#         -DINSTALL_LICENSE=OFF
-+#         # OPENCV
-+#         -DOPENCV_CONFIG_INSTALL_PATH=share/opencv
-+#         "-DOPENCV_DOWNLOAD_PATH=${DOWNLOADS}/opencv-cache"
-+#         -DOPENCV_EXTRA_MODULES_PATH=${CONTRIB_SOURCE_PATH}/modules
-+#         -DOPENCV_OTHER_INSTALL_PATH=share/opencv
-+#         # WITH
-+#         -DWITH_CUBLAS=OFF
-+#         -DWITH_CUDA=${WITH_CUDA}
-+#         -DWITH_FFMPEG=${WITH_FFMPEG}
-+#         -DWITH_LAPACK=OFF
-+#         -DWITH_MSMF=${WITH_MSMF}
-+#         -DWITH_OPENCLAMDBLAS=OFF
-+#         -DWITH_OPENGL=ON
-+#         -DWITH_QT=${WITH_QT}
-+#         -DWITH_VTK=${WITH_VTK}
-+#         -DWITH_GDCM=${WITH_GDCM}
-+#     OPTIONS_DEBUG
-+#         -DINSTALL_HEADERS=OFF
-+#         -DINSTALL_OTHER=OFF
-+# )
 +
-+set(_VCPKG_CMAKE_GENERATOR "Visual Studio")
+ vcpkg_configure_cmake(
+     SOURCE_PATH ${SOURCE_PATH}
+     OPTIONS
+@@ -90,9 +108,11 @@ vcpkg_configure_cmake(
+         -DBUILD_ZLIB=OFF
+         -DBUILD_opencv_apps=OFF
+         -DBUILD_opencv_dnn=ON
++        -DBUILD_opencv_dnn_modern=OFF
+         -DBUILD_opencv_flann=ON
+         -DBUILD_opencv_python2=OFF
+-        -DBUILD_opencv_python3=OFF
++        # -DBUILD_opencv_python3=ON
++        ${PYTHON3_OPTIONS}
+         -DBUILD_opencv_sfm=${BUILD_opencv_sfm}
+         # CMAKE
+         -DCMAKE_DISABLE_FIND_PACKAGE_JNI=ON
+@@ -123,6 +143,7 @@ vcpkg_configure_cmake(
+         -DINSTALL_OTHER=OFF
+ )
+ 
++# set(_VCPKG_CMAKE_GENERATOR "Visual Studio")
  vcpkg_install_cmake()
  
  file(COPY ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/opencv)
