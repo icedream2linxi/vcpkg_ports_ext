@@ -533,12 +533,6 @@ if(wxWidgets_FIND_STYLE STREQUAL "win32")
     endif()
 
     if(WX_LIB_DIR)
-      # If building shared libs, define WXUSINGDLL to use dllimport.
-      if (VCPKG_LIBRARY_LINKAGE STREQUAL "dynamic")
-        set(wxWidgets_DEFINITIONS WXUSINGDLL)
-        DBG_MSG_V("detected SHARED/DLL tree WX_LIB_DIR=${WX_LIB_DIR}")
-      endif()
-
       # Search for available configuration types.
       if (CMAKE_BUILD_TYPE MATCHES "^Debug$" OR NOT DEFINED CMAKE_BUILD_TYPE)
         set(WX_CONFIGURATION mswud)
@@ -598,6 +592,15 @@ if(wxWidgets_FIND_STYLE STREQUAL "win32")
         # Settings for requested libs (i.e., include dir, libraries, etc.).
         WX_SET_LIBRARIES(wxWidgets_FIND_COMPONENTS "${DBG}")
 
+        if (WX_base${DBG})
+          get_filename_component(WX_base_DIR ${WX_base${DBG}} DIRECTORY)
+          get_filename_component(WX_base_DIR ${WX_base_DIR} DIRECTORY)
+          file(GLOB WX_base_DLLS ${WX_base_DIR}/bin/wxbase*.dll)
+          if (WX_base_DLLS)
+            set(wxWidgets_DEFINITIONS WXUSINGDLL)
+            DBG_MSG_V("detected SHARED/DLL tree WX_LIB_DIR=${WX_LIB_DIR}")
+          endif()
+        endif()
         # Add necessary definitions for unicode builds
         if("${UCD}" STREQUAL "u")
           list(APPEND wxWidgets_DEFINITIONS UNICODE _UNICODE)
