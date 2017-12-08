@@ -1,0 +1,18 @@
+diff --git a/scripts/buildsystems/vcpkg.cmake b/scripts/buildsystems/vcpkg.cmake
+index 8edc283..71bc2b2 100644
+--- a/scripts/buildsystems/vcpkg.cmake
++++ b/scripts/buildsystems/vcpkg.cmake
+@@ -206,4 +206,10 @@ if(NOT _CMAKE_IN_TRY_COMPILE)
+         "set(VCPKG_TARGET_TRIPLET \"${VCPKG_TARGET_TRIPLET}\" CACHE STRING \"\")\n"
+         "set(VCPKG_APPLOCAL_DEPS \"${VCPKG_APPLOCAL_DEPS}\" CACHE STRING \"\")\n"
+         "set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE \"${_chainload_file}\" CACHE STRING \"\")\n")
+-endif()
+\ No newline at end of file
++endif()
++
++set(FindwxWidgetsCmakeDir ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/share/wxwidgets)
++if (EXISTS ${FindwxWidgetsCmakeDir}/FindwxWidgets.cmake)
++    set(CMAKE_MODULE_PATH ${FindwxWidgetsCmakeDir} ${CMAKE_MODULE_PATH})
++endif()
++unset(FindwxWidgetsCmakeDir)
+\ No newline at end of file
