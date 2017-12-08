@@ -45,7 +45,6 @@ if(NOT EXISTS "${CURRENT_BUILDTREES_DIR}/src/.git")
     message(STATUS "Patching")
 endif()
 message(STATUS "Adding worktree done")
-
 set(SOURCE_PATH ${CURRENT_BUILDTREES_DIR}/src/)
 
 message(STATUS "Updating Submodule")
@@ -63,6 +62,17 @@ vcpkg_apply_patches(
 
 # Acquire tools
 set(ENV{PATH} "${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/bin;${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/tools/qt5;$ENV{PATH}")
+
+file(STRINGS ${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/include/QtCore/qtcoreversion.h QT_VERSION
+     REGEX "^#define QTCORE_VERSION_STR[\t ]+\".+\"$")
+string(REGEX REPLACE "^#define QTCORE_VERSION_STR[\t ]+\"(.+)\"$" "\\1" QT_VERSION "${QT_VERSION}")
+message(STATUS "QT_VERSION=${QT_VERSION}")
+
+set(QMAKE_CONF ${CURRENT_BUILDTREES_DIR}/src/.qmake.conf)
+file(READ ${QMAKE_CONF} _contents)
+string(REGEX REPLACE "(MODULE_VERSION = )[0-9]+\\.[0-9]+\\.[0-9]+" "\\1${QT_VERSION}" _contents "${_contents}")
+file(WRITE ${QMAKE_CONF} "${_contents}")
+
 
 message(STATUS "QMake")
 vcpkg_execute_required_process(
@@ -93,7 +103,7 @@ vcpkg_execute_required_process(
     LOGNAME nmake-debug
 )
 
-file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/include/QtPdf/5.9.0/QtPdf/private/)
+file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/include/QtPdf/${QT_VERSION}/QtPdf/private/)
 
 file(GLOB COPY_FILES LIST_DIRECTORIES  true ${SOURCE_PATH}/Include/*)
 file(COPY ${COPY_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include)
@@ -107,7 +117,7 @@ endforeach()
 file(REMOVE ${REMOVE_FILES})
 
 file(COPY ${COPY_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include/QtPdf)
-file(RENAME ${CURRENT_PACKAGES_DIR}/include/QtPdf/qpdfdocument_p.h ${CURRENT_PACKAGES_DIR}/include/QtPdf/5.9.0/QtPdf/private/qpdfdocument_p.h)
+file(RENAME ${CURRENT_PACKAGES_DIR}/include/QtPdf/qpdfdocument_p.h ${CURRENT_PACKAGES_DIR}/include/QtPdf/${QT_VERSION}/QtPdf/private/qpdfdocument_p.h)
 
 file(REMOVE ${CURRENT_PACKAGES_DIR}/include/QtPdf/headers.pri)
 
@@ -119,6 +129,19 @@ file(INSTALL ${SOURCE_PATH}/lib/Qt5Pdf.lib DESTINATION ${CURRENT_PACKAGES_DIR}/l
 
 file(INSTALL ${SOURCE_PATH}/lib/Qt5Pdfd.dll DESTINATION ${CURRENT_PACKAGES_DIR}/debug/bin)
 file(INSTALL ${SOURCE_PATH}/lib/Qt5Pdfd.lib DESTINATION ${CURRENT_PACKAGES_DIR}/debug/lib)
+
+# set(Qt5PdfConfig ${CURRENT_PACKAGES_DIR}/share/cmake/Qt5Pdf/Qt5PdfConfig.cmake)
+# file(READ ${Qt5PdfConfig} _contents)
+# string(REPLACE "${_qt5Pdf_install_prefix}/bin/Qt5Pdfd.dll" "${_qt5Pdf_install_prefix}/debug/bin/Qt5Pdfd.dll" _contents "${_contents}")
+# string(REPLACE "${_qt5Pdf_install_prefix}/lib/Qt5Pdfd.lib" "${_qt5Pdf_install_prefix}/debug/lib/Qt5Pdfd.lib" _contents "${_contents}")
+# file(WRITE ${Qt5PdfConfig} "${_contents}")
+
+vcpkg_find_acquire_program(PYTHON3)
+vcpkg_execute_required_process(
+    COMMAND ${PYTHON3} ${CMAKE_CURRENT_LIST_DIR}/../qt5/fixcmake.py
+    WORKING_DIRECTORY ${CURRENT_PACKAGES_DIR}/share/cmake
+    LOGNAME fix-cmake
+)
 
 vcpkg_copy_pdbs()
 
