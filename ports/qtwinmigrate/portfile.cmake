@@ -56,6 +56,9 @@ vcpkg_install_cmake()
 
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
 
+file(INSTALL ${CURRENT_PORT_DIR}/Qt5WinMigrateConfig.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/cmake/Qt5WinMigrate)
+file(INSTALL ${CURRENT_PORT_DIR}/Qt5WinMigrateConfigVersion.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/cmake/Qt5WinMigrate)
+
 # Handle copyright
 file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/share/qtwinmigrate)
 file(WRITE ${CURRENT_PACKAGES_DIR}/share/qtwinmigrate/copyright "LGPL")

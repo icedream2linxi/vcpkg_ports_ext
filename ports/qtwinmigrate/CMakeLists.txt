@@ -22,15 +22,15 @@ set(SRCS src/qmfcapp.cpp
 include_directories(${Qt5Widgets_PRIVATE_INCLUDE_DIRS})
 link_libraries(Qt5::Widgets)
 
-project(QtWinMigrate)
-add_library(QtWinMigrate ${SRCS})
-target_compile_definitions(QtWinMigrate PRIVATE QT_QTWINMIGRATE_EXPORT)
+project(Qt5WinMigrate)
+add_library(Qt5WinMigrate ${SRCS})
+target_compile_definitions(Qt5WinMigrate PRIVATE QT_QTWINMIGRATE_EXPORT)
 
 # project(QtWinMigrateMfc)
 # add_library(QtWinMigrateMfc ${SRCS})
 # target_compile_definitions(QtWinMigrateMfc PRIVATE QT_QTWINMIGRATE_EXPORT _AFXDLL)
 
-install(TARGETS QtWinMigrate
+install(TARGETS Qt5WinMigrate
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
