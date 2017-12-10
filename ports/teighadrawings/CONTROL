@@ -1,4 +1,0 @@
-Source: teighadrawings
-Version: 4.3.1
-Description: Teigha Drawings
-Build-Depends: teighakernel, curl, sqlite3
