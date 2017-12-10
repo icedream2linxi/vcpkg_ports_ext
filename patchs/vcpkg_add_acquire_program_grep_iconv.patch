@@ -1,0 +1,23 @@
+diff --git a/scripts/cmake/vcpkg_find_acquire_program.cmake b/scripts/cmake/vcpkg_find_acquire_program.cmake
+index 066126e..882f9b0 100644
+--- a/scripts/cmake/vcpkg_find_acquire_program.cmake
++++ b/scripts/cmake/vcpkg_find_acquire_program.cmake
+@@ -156,6 +156,18 @@ function(vcpkg_find_acquire_program VAR)
+     set(URL "https://sourceforge.net/projects/scons/files/scons-local-3.0.1.zip/download")
+     set(ARCHIVE "scons-local-3.0.1.zip")
+     set(HASH fe121b67b979a4e9580c7f62cfdbe0c243eba62a05b560d6d513ac7f35816d439b26d92fc2d7b7d7241c9ce2a49ea7949455a17587ef53c04a5f5125ac635727)
++  elseif(VAR MATCHES "GREP")
++    set(PROGNAME grep)
++    set(PATHS ${DOWNLOADS}/tools/grep/bin)
++    set(URL "https://sourceforge.net/projects/gnuwin32/files/grep/2.5.4/grep-2.5.4-bin.zip/download")
++    set(ARCHIVE "grep-2.5.4-bin.zip")
++    set(HASH 8c1304e6dd4d5d3ab60206dfc5775845cfefd79157e41d4cdba3b20f76543c8d0118a23e792c1e6fcb84f4cc35fc03e72e67fbb35ab843eb27c309c2fbb024a6)
++  elseif(VAR MATCHES "ICONV")
++    set(PROGNAME iconv)
++    set(PATHS ${DOWNLOADS}/tools/iconv/bin)
++    set(URL "https://sourceforge.net/projects/gnuwin32/files/libiconv/1.9.2-1/libiconv-1.9.2-1-bin.zip/download")
++    set(ARCHIVE "libiconv-1.9.2-1-bin.zip")
++    set(HASH 7eefb4d93f729fc7ddd35e7340588c74b5ab32667d3e491570d5ca760dd9b395ff533397e66235c73543b30176964b7b52c6ccebcb3113e25ee97a68223a9a7a)
+   else()
+     message(FATAL "unknown tool ${VAR} -- unable to acquire.")
+   endif()
