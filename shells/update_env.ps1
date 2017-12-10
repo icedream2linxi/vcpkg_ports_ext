@@ -81,4 +81,7 @@ foreach ($patch in $ports_patchs) {
 }
 
 $copysDir = Join-Path $myPorts -ChildPath "copys" -Resolve
-Copy-Item -Path $copysDir -Destination . -Force -Recurse -Confirm
+Get-ChildItem $copysDir | % {
+    Write-Host($_)
+    Copy-Item $_.FullName -Destination . -Recurse -Force
+}
