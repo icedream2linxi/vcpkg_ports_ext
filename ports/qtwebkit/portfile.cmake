@@ -75,6 +75,16 @@ set(ENV{SQLITE3SRCDIR} ${SQLITE3SRCDIR})
 # Acquire tools
 set(ENV{PATH} "${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/bin;${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/tools/qt5;$ENV{PATH}")
 
+file(STRINGS ${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/include/QtCore/qtcoreversion.h QT_VERSION
+REGEX "^#define QTCORE_VERSION_STR[\t ]+\".+\"$")
+string(REGEX REPLACE "^#define QTCORE_VERSION_STR[\t ]+\"(.+)\"$" "\\1" QT_VERSION "${QT_VERSION}")
+message(STATUS "QT_VERSION=${QT_VERSION}")
+
+set(QMAKE_CONF ${CURRENT_BUILDTREES_DIR}/src/.qmake.conf)
+file(READ ${QMAKE_CONF} _contents)
+string(REGEX REPLACE "(MODULE_VERSION = )[0-9]+\\.[0-9]+\\.[0-9]+" "\\1${QT_VERSION}" _contents "${_contents}")
+file(WRITE ${QMAKE_CONF} "${_contents}")
+
 vcpkg_find_acquire_program(PYTHON2)
 vcpkg_find_acquire_program(PERL)
 vcpkg_find_acquire_program(BISON)
