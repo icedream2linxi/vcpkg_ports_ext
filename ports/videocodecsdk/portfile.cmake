@@ -24,5 +24,11 @@ file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/include)
 file(COPY ${INCLUDES} DESTINATION ${CURRENT_PACKAGES_DIR}/include)
 file(INSTALL ${SOURCE_PATH}/Samples/common/src DESTINATION ${CURRENT_PACKAGES_DIR})
 
+vcpkg_apply_patches(
+    SOURCE_PATH ${CURRENT_PACKAGES_DIR}/include
+    PATCHES
+    ${CURRENT_PORT_DIR}/fixed_CUresult_ver.patch
+)
+
 # Handle copyright
 file(INSTALL ${SOURCE_PATH}/LicenseAgreement.pdf DESTINATION ${CURRENT_PACKAGES_DIR}/share/videocodecsdk RENAME copyright)
