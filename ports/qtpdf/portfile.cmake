@@ -130,11 +130,16 @@ file(INSTALL ${SOURCE_PATH}/lib/Qt5Pdf.lib DESTINATION ${CURRENT_PACKAGES_DIR}/l
 file(INSTALL ${SOURCE_PATH}/lib/Qt5Pdfd.dll DESTINATION ${CURRENT_PACKAGES_DIR}/debug/bin)
 file(INSTALL ${SOURCE_PATH}/lib/Qt5Pdfd.lib DESTINATION ${CURRENT_PACKAGES_DIR}/debug/lib)
 
-# set(Qt5PdfConfig ${CURRENT_PACKAGES_DIR}/share/cmake/Qt5Pdf/Qt5PdfConfig.cmake)
-# file(READ ${Qt5PdfConfig} _contents)
-# string(REPLACE "${_qt5Pdf_install_prefix}/bin/Qt5Pdfd.dll" "${_qt5Pdf_install_prefix}/debug/bin/Qt5Pdfd.dll" _contents "${_contents}")
-# string(REPLACE "${_qt5Pdf_install_prefix}/lib/Qt5Pdfd.lib" "${_qt5Pdf_install_prefix}/debug/lib/Qt5Pdfd.lib" _contents "${_contents}")
-# file(WRITE ${Qt5PdfConfig} "${_contents}")
+# execute_process(
+#     COMMAND qmake -query QT_HOST_DATA
+#     OUTPUT_VARIABLE QT_HOST_DATA
+#     OUTPUT_STRIP_TRAILING_WHITESPACE
+# )
+
+file(GLOB MKSPECS ${SOURCE_PATH}/mkspecs/modules-inst/*.pri)
+set(QT_HOST_DATA ${VCPKG_ROOT_DIR}/packages/qt5_${TARGET_TRIPLET}/share/qt5)
+file(INSTALL ${MKSPECS} DESTINATION ${QT_HOST_DATA}/mkspecs/modules)
+file(INSTALL ${MKSPECS} DESTINATION ${CURRENT_PACKAGES_DIR}/share/qt5/mkspecs/modules)
 
 vcpkg_find_acquire_program(PYTHON3)
 vcpkg_execute_required_process(
