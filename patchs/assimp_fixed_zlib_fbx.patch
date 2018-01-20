@@ -1,0 +1,24 @@
+diff --git a/ports/assimp/portfile.cmake b/ports/assimp/portfile.cmake
+index 6d4a7ec..351ae6e 100644
+--- a/ports/assimp/portfile.cmake
++++ b/ports/assimp/portfile.cmake
+@@ -19,6 +19,8 @@ file(REMOVE ${SOURCE_PATH}/cmake-modules/FindZLIB.cmake)
+ set(VCPKG_C_FLAGS "${VCPKG_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
+ set(VCPKG_CXX_FLAGS "${VCPKG_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
+ 
++set(VCPKG_INSTALLED_DIR ${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET})
++
+ vcpkg_configure_cmake(
+     SOURCE_PATH ${SOURCE_PATH}
+     OPTIONS -DASSIMP_BUILD_TESTS=OFF
+@@ -26,6 +28,10 @@ vcpkg_configure_cmake(
+             -DASSIMP_BUILD_ZLIB=OFF
+             -DASSIMP_BUILD_ASSIMP_TOOLS=OFF
+             -DASSIMP_INSTALL_PDB=OFF
++            -DASSIMP_BUILD_FBX_IMPORTER=ON
++            "-DZLIB_INCLUDE_DIR=${VCPKG_INSTALLED_DIR}/include"
++            "-DZLIB_LIBRARY_DEBUG=${VCPKG_INSTALLED_DIR}/debug/lib/zlibd.lib"
++            "-DZLIB_LIBRARY_RELEASE=${VCPKG_INSTALLED_DIR}/lib/zlib.lib"
+ )
+ 
+ vcpkg_install_cmake()
