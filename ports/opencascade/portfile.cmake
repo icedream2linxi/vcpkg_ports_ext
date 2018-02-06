@@ -11,36 +11,51 @@
 #
 
 include(vcpkg_common_functions)
-set(SOURCE_PATH ${CURRENT_BUILDTREES_DIR}/src/opencascade-7.1.0)
+set(SOURCE_PATH ${CURRENT_BUILDTREES_DIR}/src/opencascade-7.2.0)
 vcpkg_download_distfile(ARCHIVE
-    URLS "ftp://fulongkjftp:fulongkeji@svn.fulongtech.cn/SEAL/OpenSource/opencascade-7.1.0.tgz"
-    FILENAME "opencascade-7.1.0.tgz"
-    SHA512 4b729ccca950e90381ccdd9f407d98af281f02f98212d7fc13be031253f530f75cc1c6e2f2a1a9880ada6626a0c5bd144d991370170745c087313a4bdb2c45b0
+    URLS "ftp://fulongkjftp:fulongkeji@svn.fulongtech.cn/SEAL/OpenSource/opencascade-7.2.0.tgz"
+    FILENAME "opencascade-7.2.0.tgz"
+    SHA512 d51a1d901d5a6afa2013ad5759c1d5e016af1b804b27ae611a3090a5fcb8bde34b646de92cf21cd3e221003322d17a044b14d8e54f44d056ed51e28df0ef5f67
 )
-vcpkg_extract_source_archive(${ARCHIVE})
+vcpkg_extract_source_archive(${ARCHIVE}
+)
+vcpkg_apply_patches(
+    SOURCE_PATH ${SOURCE_PATH}
+    PATCHES "${CMAKE_CURRENT_LIST_DIR}/fixed-link-tcl-tk.patch"
+)
 
-if("$ENV{TCL_PATH}" STREQUAL "")
-    message(FATAL_ERROR "Not found TCL! Please set TCL_PATH environment variable before!")
-endif()
+vcpkg_find_acquire_program(TCL)
+get_filename_component(TCL_PATH ${TCL} DIRECTORY)
+get_filename_component(TCL_PATH ${TCL_PATH} DIRECTORY)
 
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA # Disable this option if project cannot be built with Ninja
     OPTIONS
-        -D3RDPARTY_TCL_INCLUDE_DIR=$ENV{TCL_PATH}/include
-        -D3RDPARTY_TCL_LIBRARY_DIR=$ENV{TCL_PATH}/lib
-        -D3RDPARTY_TCL_DLL_DIR=$ENV{TCL_PATH}/bin
-        -D3RDPARTY_TK_INCLUDE_DIR=$ENV{TCL_PATH}/include
-        -D3RDPARTY_TK_LIBRARY_DIR=$ENV{TCL_PATH}/lib
-        -D3RDPARTY_TK_DLL_DIR=$ENV{TCL_PATH}/bin
+        -D3RDPARTY_TCL_DIR=${TCL_PATH}
+        -D3RDPARTY_TCL_INCLUDE_DIR=${TCL_PATH}/include
+        -D3RDPARTY_TCL_LIBRARY_DIR=${TCL_PATH}/lib
+        -D3RDPARTY_TCL_LIBRARY=${TCL_PATH}/lib/tcl86t.lib
+        -D3RDPARTY_TCL_DLL_DIR=${TCL_PATH}/bin
+        -D3RDPARTY_TCL_DLL=${TCL_PATH}/bin/tcl86t.dll
+        -D3RDPARTY_TK_DIR=${TCL_PATH}
+        -D3RDPARTY_TK_INCLUDE_DIR=${TCL_PATH}/include
+        -D3RDPARTY_TK_LIBRARY_DIR=${TCL_PATH}/lib
+        -D3RDPARTY_TK_LIBRARY=${TCL_PATH}/lib/tk86t.lib
+        -D3RDPARTY_TK_DLL_DIR=${TCL_PATH}/bin
+        -D3RDPARTY_TK_DLL=${TCL_PATH}/bin/tk86t.dll
         -DINSTALL_DIR_BIN=bin
         -DINSTALL_DIR_INCLUDE=include
         -DINSTALL_DIR_LIB=lib
-    # OPTIONS_RELEASE
-    # OPTIONS_DEBUG -DDEBUGGABLE=1
+    # OPTIONS_RELEASE -DBUILD_TYPE=Release
+    # OPTIONS_DEBUG -DBUILD_TYPE=Debug -DOCCT_INSTALL_BIN_LETTER=d
 )
 
+# set(_VCPKG_CMAKE_GENERATOR "Ninja")
 vcpkg_install_cmake()
+
+file(RENAME ${CURRENT_PACKAGES_DIR}/debug/bind ${CURRENT_PACKAGES_DIR}/debug/bin)
+file(RENAME ${CURRENT_PACKAGES_DIR}/debug/libd ${CURRENT_PACKAGES_DIR}/debug/lib)
 
 file(REMOVE_RECURSE
     ${CURRENT_PACKAGES_DIR}/data
