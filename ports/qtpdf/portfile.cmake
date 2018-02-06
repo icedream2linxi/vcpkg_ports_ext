@@ -62,6 +62,7 @@ vcpkg_apply_patches(
 
 # Acquire tools
 set(ENV{PATH} "${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/bin;${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/tools/qt5;$ENV{PATH}")
+set(ENV{INCLUDE} "${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/include;$ENV{INCLUDE}")
 
 file(STRINGS ${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/include/QtCore/qtcoreversion.h QT_VERSION
      REGEX "^#define QTCORE_VERSION_STR[\t ]+\".+\"$")
@@ -145,7 +146,7 @@ file(INSTALL ${MKSPECS} DESTINATION ${CURRENT_PACKAGES_DIR}/share/qt5/mkspecs/mo
 
 vcpkg_find_acquire_program(PYTHON3)
 vcpkg_execute_required_process(
-    COMMAND ${PYTHON3} ${CMAKE_CURRENT_LIST_DIR}/../qt5/fixcmake.py
+    COMMAND ${PYTHON3} ${CMAKE_CURRENT_LIST_DIR}/../qt5-base/fixcmake.py
     WORKING_DIRECTORY ${CURRENT_PACKAGES_DIR}/share/cmake
     LOGNAME fix-cmake
 )

@@ -180,7 +180,7 @@ vcpkg_execute_required_process(
     LOGNAME build-release
 )
 
-set(TARGET_PATH ${VCPKG_ROOT_DIR}/packages/qt5_${TARGET_TRIPLET})
+set(TARGET_PATH ${VCPKG_ROOT_DIR}/packages/qt5-base_${TARGET_TRIPLET})
 string(REPLACE "/" "\\" TARGET_PATH "${TARGET_PATH}")
 string(REPLACE ":\\" ":$(INSTALL_ROOT)\\" TARGET_PATH "${TARGET_PATH}")
 set(NEW_TARGET_PATH ${CURRENT_PACKAGES_DIR})
@@ -215,7 +215,7 @@ vcpkg_execute_required_process(
     LOGNAME build-debug
 )
 
-set(TARGET_PATH ${VCPKG_ROOT_DIR}/packages/qt5_${TARGET_TRIPLET})
+set(TARGET_PATH ${VCPKG_ROOT_DIR}/packages/qt5-base_${TARGET_TRIPLET})
 string(REPLACE "/" "\\" TARGET_PATH "${TARGET_PATH}")
 string(REPLACE ":\\" ":$(INSTALL_ROOT)\\" TARGET_PATH "${TARGET_PATH}")
 set(NEW_TARGET_PATH ${CURRENT_PACKAGES_DIR}/debug)
@@ -245,7 +245,7 @@ file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/tests)
 
 vcpkg_find_acquire_program(PYTHON3)
 vcpkg_execute_required_process(
-    COMMAND ${PYTHON3} ${CMAKE_CURRENT_LIST_DIR}/../qt5/fixcmake.py
+    COMMAND ${PYTHON3} ${CMAKE_CURRENT_LIST_DIR}/../qt5-base/fixcmake.py
     WORKING_DIRECTORY ${CURRENT_PACKAGES_DIR}/share/cmake
     LOGNAME fix-cmake
 )

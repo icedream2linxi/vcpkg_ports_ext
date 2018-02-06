@@ -19,7 +19,7 @@ set(SRCS src/qmfcapp.cpp
          src/qwinhost.cpp
          src/qwinwidget.cpp)
 
-include_directories(${Qt5Widgets_PRIVATE_INCLUDE_DIRS})
+include_directories(${Qt5Widgets_PRIVATE_INCLUDE_DIRS} "${_qt5Gui_install_prefix}/include/QtGui/${Qt5Gui_VERSION_STRING}/QtGui")
 link_libraries(Qt5::Widgets)
 
 project(Qt5WinMigrate)
