@@ -1,10 +1,10 @@
 diff --git a/ports/opencv/portfile.cmake b/ports/opencv/portfile.cmake
-index 10bea9d..ff54770 100644
+index f3efaa77..15af00df 100644
 --- a/ports/opencv/portfile.cmake
 +++ b/ports/opencv/portfile.cmake
-@@ -68,6 +68,24 @@ if(VCPKG_CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
-   set(WITH_MSMF OFF)
- endif()
+@@ -213,6 +213,24 @@ endif()
+ 
+ string(REPLACE ";" "\\\\\;" CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}")
  
 +set(CMAKE_FIND_LIBRARY_PREFIXES "")
 +set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
@@ -24,10 +24,10 @@ index 10bea9d..ff54770 100644
 +  set(PYTHON3_OPTIONS -DBUILD_opencv_python3=OFF)
 +endif()
 +
- set(BUILD_opencv_line_descriptor ON)
- set(BUILD_opencv_saliency ON)
- set(BUILD_opencv_bgsegm ON)
-@@ -99,9 +117,11 @@ vcpkg_configure_cmake(
+ vcpkg_configure_cmake(
+     PREFER_NINJA
+     SOURCE_PATH ${SOURCE_PATH}
+@@ -239,9 +257,11 @@ vcpkg_configure_cmake(
          -DBUILD_ZLIB=OFF
          -DBUILD_opencv_apps=OFF
          -DBUILD_opencv_dnn=ON
@@ -40,7 +40,7 @@ index 10bea9d..ff54770 100644
          -DBUILD_opencv_sfm=${BUILD_opencv_sfm}
          -DBUILD_opencv_line_descriptor=${BUILD_opencv_line_descriptor}
          -DBUILD_opencv_saliency=${BUILD_opencv_saliency}
-@@ -135,6 +155,7 @@ vcpkg_configure_cmake(
+@@ -285,6 +305,7 @@ vcpkg_configure_cmake(
          -DINSTALL_OTHER=OFF
  )
  
