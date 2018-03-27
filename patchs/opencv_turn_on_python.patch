@@ -1,8 +1,8 @@
 diff --git a/ports/opencv/portfile.cmake b/ports/opencv/portfile.cmake
-index f3efaa77..15af00df 100644
+index 78ed5fa..bafda49 100644
 --- a/ports/opencv/portfile.cmake
 +++ b/ports/opencv/portfile.cmake
-@@ -213,6 +213,24 @@ endif()
+@@ -236,6 +236,24 @@ endif()
  
  string(REPLACE ";" "\\\\\;" CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}")
  
@@ -27,20 +27,22 @@ index f3efaa77..15af00df 100644
  vcpkg_configure_cmake(
      PREFER_NINJA
      SOURCE_PATH ${SOURCE_PATH}
-@@ -239,9 +257,11 @@ vcpkg_configure_cmake(
-         -DBUILD_ZLIB=OFF
+@@ -263,11 +281,13 @@ vcpkg_configure_cmake(
          -DBUILD_opencv_apps=OFF
-         -DBUILD_opencv_dnn=ON
+         -DBUILD_opencv_bgsegm=${BUILD_opencv_bgsegm}
+         -DBUILD_opencv_dnn=${BUILD_opencv_dnn}
 +        -DBUILD_opencv_dnn_modern=OFF
-         -DBUILD_opencv_flann=ON
+         -DBUILD_opencv_flann=${BUILD_opencv_flann}
+         -DBUILD_opencv_line_descriptor=${BUILD_opencv_line_descriptor}
+         -DBUILD_opencv_ovis=${BUILD_opencv_ovis}
          -DBUILD_opencv_python2=OFF
 -        -DBUILD_opencv_python3=OFF
 +        # -DBUILD_opencv_python3=OFF
 +        ${PYTHON3_OPTIONS}
-         -DBUILD_opencv_sfm=${BUILD_opencv_sfm}
-         -DBUILD_opencv_line_descriptor=${BUILD_opencv_line_descriptor}
          -DBUILD_opencv_saliency=${BUILD_opencv_saliency}
-@@ -285,6 +305,7 @@ vcpkg_configure_cmake(
+         -DBUILD_opencv_sfm=${BUILD_opencv_sfm}
+         # PROTOBUF
+@@ -313,6 +333,7 @@ vcpkg_configure_cmake(
          -DINSTALL_OTHER=OFF
  )
  
