@@ -1,5 +1,17 @@
+diff --git a/ports/opencv/CONTROL b/ports/opencv/CONTROL
+index 5450f390..60c7ffa9 100644
+--- a/ports/opencv/CONTROL
++++ b/ports/opencv/CONTROL
+@@ -76,3 +76,7 @@ Description: JPEG 2000 support for opencv
+ Feature: eigen
+ Build-Depends: eigen3
+ Description: Eigen support for opencv
++
++Feature: python
++Build-Depends: python3
++Description: Python support for opencv
 diff --git a/ports/opencv/portfile.cmake b/ports/opencv/portfile.cmake
-index 78ed5fa..bafda49 100644
+index 78ed5fa5..bafda495 100644
 --- a/ports/opencv/portfile.cmake
 +++ b/ports/opencv/portfile.cmake
 @@ -236,6 +236,24 @@ endif()
