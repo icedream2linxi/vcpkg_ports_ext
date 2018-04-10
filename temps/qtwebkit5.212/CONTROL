@@ -1,0 +1,4 @@
+Source: qtwebkit
+Version: 5.8.0
+Description: 
+Build-Depends: qt5, fontconfig, icu, libxml2, libxslt, libwebp

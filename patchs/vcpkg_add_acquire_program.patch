@@ -1,11 +1,11 @@
 diff --git a/scripts/cmake/vcpkg_find_acquire_program.cmake b/scripts/cmake/vcpkg_find_acquire_program.cmake
-index b2434502..97d5343a 100644
+index 30ecb057..ffbd1873 100644
 --- a/scripts/cmake/vcpkg_find_acquire_program.cmake
 +++ b/scripts/cmake/vcpkg_find_acquire_program.cmake
-@@ -165,6 +165,26 @@ function(vcpkg_find_acquire_program VAR)
-     set(URL "http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.14.windows.bin.zip")
-     set(ARCHIVE "doxygen-1.8.14.windows.bin.zip")
-     set(HASH d0d706501e7112045b1f401f22d12a2c8d9b7728edee9ad1975a17dff914c16494ae48a70beab6f6304643779935843f268c7afed3b9da7d403b5cb11cac0c50)
+@@ -173,6 +173,26 @@ function(vcpkg_find_acquire_program VAR)
+     set(URL "https://sourceforge.net/projects/scons/files/scons-local-3.0.1.zip/download")
+     set(ARCHIVE "scons-local-3.0.1.zip")
+     set(HASH fe121b67b979a4e9580c7f62cfdbe0c243eba62a05b560d6d513ac7f35816d439b26d92fc2d7b7d7241c9ce2a49ea7949455a17587ef53c04a5f5125ac635727)
 +  elseif(VAR MATCHES "GREP")
 +    set(PROGNAME grep)
 +    set(PATHS ${DOWNLOADS}/tools/grep/bin)
@@ -26,11 +26,11 @@ index b2434502..97d5343a 100644
 +    set(HASH 8e5f4d81afea4ca64815b4b9ae1aa421ca6e24ced8b4f1bdd01236b7f0e94fef02d16e0b9716c4bbda3c340384d0b770b719888eb17427e74b5c0017765c4567)
 +    file(TO_NATIVE_PATH "${DOWNLOADS}/tools/${PROGNAME}/${SUBDIR}" DESTINATION_NATIVE_PATH)
 +    set(INSTALL_OPTIONS "/extract:${DESTINATION_NATIVE_PATH}")
-   else()
-     message(FATAL "unknown tool ${VAR} -- unable to acquire.")
-   endif()
-@@ -192,7 +212,16 @@ function(vcpkg_find_acquire_program VAR)
-       file(COPY ${ARCHIVE_PATH} DESTINATION ${DOWNLOADS}/tools/${PROGNAME}/${SUBDIR})
+   elseif(VAR MATCHES "DOXYGEN")
+     set(PROGNAME doxygen)
+     set(PATHS ${DOWNLOADS}/tools/doxygen)
+@@ -228,7 +248,16 @@ function(vcpkg_find_acquire_program VAR)
+       endif()
      else()
        get_filename_component(ARCHIVE_EXTENSION ${ARCHIVE} EXT)
 +      string(FIND ${ARCHIVE_EXTENSION} "." IDX REVERSE)
@@ -45,8 +45,8 @@ index b2434502..97d5343a 100644
 +      endif()
        if(ARCHIVE_EXTENSION STREQUAL ".msi")
          file(TO_NATIVE_PATH "${ARCHIVE_PATH}" ARCHIVE_NATIVE_PATH)
-         file(TO_NATIVE_PATH "${DOWNLOADS}/tools/${PROGNAME}/${SUBDIR}" DESTINATION_NATIVE_PATH)
-@@ -200,6 +229,12 @@ function(vcpkg_find_acquire_program VAR)
+         file(TO_NATIVE_PATH "${PROG_PATH_SUBDIR}" DESTINATION_NATIVE_PATH)
+@@ -236,6 +265,12 @@ function(vcpkg_find_acquire_program VAR)
            COMMAND msiexec /a ${ARCHIVE_NATIVE_PATH} /qn TARGETDIR=${DESTINATION_NATIVE_PATH}
            WORKING_DIRECTORY ${DOWNLOADS}
          )

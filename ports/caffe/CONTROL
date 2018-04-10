@@ -1,0 +1,4 @@
+Source: caffe
+Version: 1.0.0
+Description: Caffe: a fast open framework for deep learning.
+Build-Depends: glog, gflags, lmdb, openblas, boost, protobuf, snappy
